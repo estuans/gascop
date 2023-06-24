@@ -86,7 +86,7 @@ Q_OBJECT
     void resetTimeClicked();
     void applySettings();
     void keyTxClicked();
-    void mixerDeviceChanged(int index);
+    void mixerDeviceChanged(QString dev_name);
 
   private:
     Pagerid * pagerid;
@@ -115,7 +115,7 @@ Q_OBJECT
     Uint16 audio_format;                                                       // Format of the audio we're playing
     int audio_channels;                                                        // 2 channels = stereo
     int audio_buffers;                                                         // Size of the audio buffers in memory
-    char audio_device;
+    QString audio_device;
     int waveFileDataLength;
     int pDB;
     int pocsagChannel;

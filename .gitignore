@@ -1,3 +1,4 @@
 *.o
 .qmake.stash
 .qtc_clangd
+gascop

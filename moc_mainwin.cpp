@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWin_t {
-    QByteArrayData data[39];
-    char stringdata0[556];
+    QByteArrayData data[40];
+    char stringdata0[565];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -70,7 +70,8 @@ QT_MOC_LITERAL(34, 476, 16), // "pagesDeleteEntry"
 QT_MOC_LITERAL(35, 493, 16), // "resetTimeClicked"
 QT_MOC_LITERAL(36, 510, 13), // "applySettings"
 QT_MOC_LITERAL(37, 524, 12), // "keyTxClicked"
-QT_MOC_LITERAL(38, 537, 18) // "mixerDeviceChanged"
+QT_MOC_LITERAL(38, 537, 18), // "mixerDeviceChanged"
+QT_MOC_LITERAL(39, 556, 8) // "dev_name"
 
     },
     "MainWin\0txLengthTimeout\0\0sendSinglePage\0"
@@ -88,7 +89,7 @@ QT_MOC_LITERAL(38, 537, 18) // "mixerDeviceChanged"
     "pagerIDsClearAll\0pagerIDsDeleteEntry\0"
     "pagesDeleteEntry\0resetTimeClicked\0"
     "applySettings\0keyTxClicked\0"
-    "mixerDeviceChanged"
+    "mixerDeviceChanged\0dev_name"
 };
 #undef QT_MOC_LITERAL
 
@@ -169,7 +170,7 @@ static const uint qt_meta_data_MainWin[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   25,
+    QMetaType::Void, QMetaType::QString,   39,
 
        0        // eod
 };
@@ -210,7 +211,7 @@ void MainWin::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 27: _t->resetTimeClicked(); break;
         case 28: _t->applySettings(); break;
         case 29: _t->keyTxClicked(); break;
-        case 30: _t->mixerDeviceChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 30: _t->mixerDeviceChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }

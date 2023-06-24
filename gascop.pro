@@ -2,7 +2,7 @@ TEMPLATE += app
 QT += widgets gui core network
 
 CONFIG += qt c++11
-LIBS += -lSDL2 -lSDL2_mixer -lSDL2_audio
+LIBS += -lSDL2 -lSDL2_mixer
 
 RESOURCES +=   	mainwin.qrc
 FORMS += mainwin.ui pagerid.ui

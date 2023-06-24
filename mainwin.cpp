@@ -105,6 +105,7 @@ MainWin::MainWin( QWidget * parent, Qt::WindowFlags f)
   connect(lwPages, SIGNAL(currentRowChanged(int)), this, SLOT(pagesRowChanged(int)));
   connect(pbApply, SIGNAL(clicked()), this, SLOT(applySettings()));
   connect(pbKeyTx, SIGNAL(clicked()), this, SLOT(keyTxClicked()));
+  connect(mixer_device, SIGNAL(currentTextChanged(QString)), this, SLOT(mixerDeviceChanged(QString)));
   // Below are all to do with detecting a change in the PagerIDs info
   connect(leRic_2, SIGNAL(textChanged(QString)), this, SLOT(pagerIDstextChanged(QString)));
   connect(leName_2, SIGNAL(textChanged(QString)), this, SLOT(pagerIDstextChanged(QString)));
@@ -301,6 +302,14 @@ void MainWin::pagerIDsvalChanged(int)
 void MainWin::pagerIDsChange()
 {
   pbUpdateEntry->setEnabled(true);
+}
+
+void MainWin::mixerDeviceChanged(QString dev_name)
+{
+  //printf(dev_id);
+  //displayMessages(QString::number(dev_id));
+  this->audio_device = dev_name;
+
 }
 
 //  This watchdog timer is called every 5 seconds and checks if the pages database modified time has changed.
@@ -861,7 +870,7 @@ void MainWin::loadPrevPages()
 void MainWin::logSave()
 {
   QStringList lf;
-  lf = logFile->document()->toPlainText().split("\n", QString::KeepEmptyParts);
+  lf = logFile->document()->toPlainText().split("\n", QString::SplitBehavior::KeepEmptyParts, Qt::CaseInsensitive);
   writeTextFile(userDir + "/gascop.log", &lf);
 }
 
@@ -1389,16 +1398,16 @@ void MainWin::txLengthTimeout()
     if(singlePage)
     {
       if(normInv[sbTx->value()-1] == 1)
-        QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTx->value()-1]) + " 0"); // Dekey the transmitter
+        QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[sbTx->value()-1]) + " 0"}); // Dekey the transmitter
       else
-        QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTx->value()-1]) + " 1");
+        QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[sbTx->value()-1]) + " 1"});
     }
     else
     {
       if(normInv[currentTx-1] == 1)
-        QProcess::startDetached("gpio -g write " + QSn(gpioPin[currentTx-1]) + " 0"); // Dekey the transmitter
+        QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[currentTx-1]) + " 0"}); // Dekey the transmitter
       else
-        QProcess::startDetached("gpio -g write " + QSn(gpioPin[currentTx-1]) + " 1");
+        QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[currentTx-1]) + " 1"});
     }
   }
   if(rbPic->isChecked())
@@ -1530,20 +1539,12 @@ void MainWin::playWaveData()
   audio_format = AUDIO_S16SYS;         // Format of the audio we're playing
   audio_channels = 1;               // 2 channels = stereo
   audio_buffers = 2048;             // Size of the audio buffers in memory
-  audio_device = NULL;
 
-  if(SDL_Init(SDL_INIT_AUDIO) != 0) // Initialize SDL audio
-  {
-    displayMessages("Unable to initialize SDL: " + (QString)SDL_GetError());
-    return;
-  }
-  // do this instead:
-  const int count = SDL_GetNumAudioDevices(0);
-  for (int i = 0; i < count; ++i) {
-      displayMessages(SDL_GetAudioDeviceName(i, 0));
-  }
+  // Dirty Hacks Make The World Go Around
+  QByteArray ba = this->audio_device.toLocal8Bit();
+  const char *c_device_name = ba.data();
 
-  if(Mix_OpenAudioDevice(audio_rate, audio_format, audio_channels, 512, &audio_device, false) != 0) // Initialize SDL_mixer with our chosen audio settings
+  if(Mix_OpenAudioDevice(audio_rate, audio_format, audio_channels, 512, c_device_name, SDL_AUDIO_ALLOW_ANY_CHANGE) != 0) // Initialize SDL_mixer with our chosen audio settings
   {
     displayMessages("Unable to initialize audio: " + (QString)Mix_GetError());
     return;
@@ -1558,12 +1559,12 @@ void MainWin::playWaveData()
   {
     if(singlePage)
     {
-      QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTx->value()-1]) + " " + QSn(normInv[sbTx->value()-1]));
+      QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[sbTx->value()-1]) + " " + QSn(normInv[sbTx->value()-1])});
       gotoSleep::msleep(keyDelay[sbTx->value()-1]);
     }
     else
     {
-      QProcess::startDetached("gpio -g write " + QSn(gpioPin[currentTx-1]) + " " + QSn(normInv[currentTx-1]));
+      QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[currentTx-1]) + " " + QSn(normInv[currentTx-1])});
       gotoSleep::msleep(keyDelay[currentTx-1]);
     }
   }
@@ -1609,13 +1610,13 @@ void MainWin::keyTxClicked()
   if(rbSop->isChecked())
   {
     if(pbKeyTx->isChecked())
-      QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTxTest->value()-1]) + " " + QSn(normInv[sbTxTest->value()-1]));
+      QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[sbTxTest->value()-1]) + " " + QSn(normInv[sbTxTest->value()-1])});
     else
     {
       if(normInv[sbTxTest->value()-1] == 1)
-        QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTxTest->value()-1]) + " 0"); // Dekey the transmitter
+        QProcess::startDetached("gpio" , {"-g write " + QSn(gpioPin[sbTxTest->value()-1]) + " 0"}); // Dekey the transmitter
       else
-        QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTxTest->value()-1]) + " 1");
+        QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[sbTxTest->value()-1]) + " 1"});
     }
   }
 }
@@ -2109,9 +2110,9 @@ void MainWin::applySettings()
     gpioPin[7] = 4;
     for(int x = 0; x < 8; x++)  // Set up the keying pins and de-key each transmitter
     {
-      QProcess::startDetached("gpio export " + QSn(gpioPin[x]) + " out");
-      QProcess::startDetached("gpio -g mode " + QSn(gpioPin[x]) + " out");
-      QProcess::startDetached("gpio -g write " + QSn(gpioPin[x]) + " " + QSn(!normInv[x]));
+      QProcess::startDetached("gpio", {"export " + QSn(gpioPin[x]) + " out"});
+      QProcess::startDetached("gpio", {"-g mode " + QSn(gpioPin[x]) + " out"});
+      QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[x]) + " " + QSn(!normInv[x])});
     }
   }
   if(rbPic->isChecked())

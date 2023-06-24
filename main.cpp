@@ -28,6 +28,20 @@ int main(int argc, char ** argv)
 {
   QApplication app(argc, argv);
   MainWin win;
+
+  if(SDL_Init(SDL_INIT_AUDIO) != 0) // Initialize SDL audio
+  {
+    return -1;
+  }
+
+  // Enumerate the sound cards!
+  const int count = SDL_GetNumAudioDevices(0);
+  for (int i = 0; i < count; ++i) {
+      win.mixer_device->addItem(SDL_GetAudioDeviceName(i, 0));
+      //displayMessages(SDL_GetAudioDeviceName(i, 0));
+  }
+
+
   win.show();
   app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
   return app.exec();

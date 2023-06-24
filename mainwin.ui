@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author>C. Cooper</author>
+ <author>C. Cooper, B. Field</author>
  <class>MainWin</class>
  <widget class="QMainWindow" name="MainWin">
   <property name="geometry">

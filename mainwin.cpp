@@ -34,7 +34,7 @@
 #define MainWin_DEBUG
 
 const bool DEBUG = true;
-const QString VERSION = "2013.11.08-1";
+const QString VERSION = "2023.06.24-1";
 #define RICPOS(c) (c % 8)
 #define QSn QString::number
 

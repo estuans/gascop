@@ -71,6 +71,7 @@ Q_OBJECT
     void tuneupTransmit();
     void tuneupStop();
     void ricSearch();
+    void ricAutoSearch();
     void ricSearchAbort();
     void logSave();
     void logReload();
@@ -118,6 +119,7 @@ Q_OBJECT
 
     Uint8 * pocsagBuffer;
     bool isRicSearching;
+    bool isAutoRicSearching;
 
     int audio_rate;                                                            // Frequency of audio playback
     Uint16 audio_format;                                                       // Format of the audio we're playing

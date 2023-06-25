@@ -93,6 +93,7 @@ MainWin::MainWin( QWidget * parent, Qt::WindowFlags f)
   connect(tbTune, SIGNAL(clicked()), this, SLOT(tuneupTransmit()));
   connect(tbTuneStop, SIGNAL(clicked()), this, SLOT(tuneupStop()));
   connect(pbStart, SIGNAL(clicked()), this, SLOT(ricSearch()));
+  connect(cbAutoRic, SIGNAL(clicked()), this, SLOT(ricAutoSearch()));
   connect(pbAbort, SIGNAL(clicked()), this, SLOT(ricSearchAbort()));
   connect(pbSave, SIGNAL(clicked()), this, SLOT(logSave()));
   connect(pbReload, SIGNAL(clicked()), this, SLOT(logReload()));
@@ -949,6 +950,7 @@ void MainWin::ricSearch()
   lwRicSearch->clear();
   msgcw.clear();
   msgcw.append(syncCW);
+
   while(startRIC < leStartRic->text().toInt() + sbAmtRics->value())
   {
     if(cbSendRic->isChecked()) // This section sends the RIC code (last 5 digits only) as a numeric message to the RIC being transmitted.
@@ -987,6 +989,15 @@ void MainWin::ricSearch()
   displayPocsagData(lwRicSearch);
   pbAbort->setEnabled(true);
   buildPocsagWaveData(&msgcw, getBaudRate());
+}
+
+void MainWin::ricAutoSearch(){
+    if(cbAutoRic->isChecked() && (this->isAutoRicSearching == false)){
+        this->isAutoRicSearching = true;
+    }
+    else {
+        this->isAutoRicSearching = false;
+    }
 }
 
 // Abort the RIC search
@@ -1443,6 +1454,7 @@ void MainWin::txLengthTimeout()
     pbSend->setFocus();
     return;
   }
+
   if(!testMode)                                   //  If we are not in test mode then delete the sent pages from the database
     deleteSentPages();                            // delete the pages just sent
   else
@@ -1450,6 +1462,12 @@ void MainWin::txLengthTimeout()
   populatePagerMsgsEditor();                      // Update the pager messages editor.
   watchdog->start();                              // Start the message checking timer again.
   txComplete = true;
+
+  if(isAutoRicSearching){
+      //Keep the search going.
+      gotoSleep::msleep(1000);
+      pbStart->click();
+  }
 }
 
 // Delete the pages just sent, they have the processing flag set to true

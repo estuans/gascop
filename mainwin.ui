@@ -55,7 +55,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>1</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -1007,6 +1007,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </property>
         <property name="text">
          <string>&amp;Abort</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbAutoRic">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>396</y>
+          <width>131</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Auto-Search</string>
         </property>
        </widget>
       </widget>

@@ -101,6 +101,7 @@ public:
     QSpinBox *sbAmtTxs;
     QCheckBox *cbSendRic;
     QPushButton *pbAbort;
+    QCheckBox *cbAutoRic;
     QWidget *tabPocsagData;
     QGridLayout *gridLayout_2;
     QListWidget *lwPocsag;
@@ -485,6 +486,9 @@ public:
         pbAbort->setObjectName(QString::fromUtf8("pbAbort"));
         pbAbort->setEnabled(false);
         pbAbort->setGeometry(QRect(582, 394, 59, 25));
+        cbAutoRic = new QCheckBox(tabRicSearch);
+        cbAutoRic->setObjectName(QString::fromUtf8("cbAutoRic"));
+        cbAutoRic->setGeometry(QRect(220, 396, 131, 23));
         twMain->addTab(tabRicSearch, QString());
         tabPocsagData = new QWidget();
         tabPocsagData->setObjectName(QString::fromUtf8("tabPocsagData"));
@@ -970,7 +974,7 @@ public:
 
         retranslateUi(MainWin);
 
-        twMain->setCurrentIndex(6);
+        twMain->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWin);
@@ -1045,6 +1049,7 @@ public:
         sbAmtTxs->setPrefix(QCoreApplication::translate("MainWin", "Make ", nullptr));
         cbSendRic->setText(QCoreApplication::translate("MainWin", "Send RIC to pager", nullptr));
         pbAbort->setText(QCoreApplication::translate("MainWin", "&Abort", nullptr));
+        cbAutoRic->setText(QCoreApplication::translate("MainWin", "Auto-Search", nullptr));
         twMain->setTabText(twMain->indexOf(tabRicSearch), QCoreApplication::translate("MainWin", "RIC Search", nullptr));
         twMain->setTabText(twMain->indexOf(tabPocsagData), QCoreApplication::translate("MainWin", "Pocsag Data", nullptr));
         pbSave->setText(QCoreApplication::translate("MainWin", "&Save", nullptr));

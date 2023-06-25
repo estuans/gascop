@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWin_t {
-    QByteArrayData data[40];
-    char stringdata0[565];
+    QByteArrayData data[42];
+    char stringdata0[594];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -70,8 +70,10 @@ QT_MOC_LITERAL(34, 476, 16), // "pagesDeleteEntry"
 QT_MOC_LITERAL(35, 493, 16), // "resetTimeClicked"
 QT_MOC_LITERAL(36, 510, 13), // "applySettings"
 QT_MOC_LITERAL(37, 524, 12), // "keyTxClicked"
-QT_MOC_LITERAL(38, 537, 18), // "mixerDeviceChanged"
-QT_MOC_LITERAL(39, 556, 8) // "dev_name"
+QT_MOC_LITERAL(38, 537, 15), // "getGpioSettings"
+QT_MOC_LITERAL(39, 553, 12), // "GpioSettings"
+QT_MOC_LITERAL(40, 566, 18), // "mixerDeviceChanged"
+QT_MOC_LITERAL(41, 585, 8) // "dev_name"
 
     },
     "MainWin\0txLengthTimeout\0\0sendSinglePage\0"
@@ -88,8 +90,9 @@ QT_MOC_LITERAL(39, 556, 8) // "dev_name"
     "pagerIDsAddEntry\0pagerIDsUpdateEntry\0"
     "pagerIDsClearAll\0pagerIDsDeleteEntry\0"
     "pagesDeleteEntry\0resetTimeClicked\0"
-    "applySettings\0keyTxClicked\0"
-    "mixerDeviceChanged\0dev_name"
+    "applySettings\0keyTxClicked\0getGpioSettings\0"
+    "GpioSettings\0mixerDeviceChanged\0"
+    "dev_name"
 };
 #undef QT_MOC_LITERAL
 
@@ -99,7 +102,7 @@ static const uint qt_meta_data_MainWin[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      31,   14, // methods
+      32,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -107,37 +110,38 @@ static const uint qt_meta_data_MainWin[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  169,    2, 0x08 /* Private */,
-       3,    0,  170,    2, 0x08 /* Private */,
-       4,    1,  171,    2, 0x08 /* Private */,
-       6,    1,  174,    2, 0x08 /* Private */,
-       8,    1,  177,    2, 0x08 /* Private */,
-      11,    0,  180,    2, 0x08 /* Private */,
-      12,    0,  181,    2, 0x08 /* Private */,
-      13,    0,  182,    2, 0x08 /* Private */,
-      14,    0,  183,    2, 0x08 /* Private */,
-      15,    0,  184,    2, 0x08 /* Private */,
-      16,    0,  185,    2, 0x08 /* Private */,
-      17,    0,  186,    2, 0x08 /* Private */,
-      18,    1,  187,    2, 0x08 /* Private */,
-      20,    0,  190,    2, 0x08 /* Private */,
-      21,    0,  191,    2, 0x08 /* Private */,
-      22,    0,  192,    2, 0x08 /* Private */,
-      23,    1,  193,    2, 0x08 /* Private */,
-      24,    1,  196,    2, 0x08 /* Private */,
-      26,    1,  199,    2, 0x08 /* Private */,
-      27,    0,  202,    2, 0x08 /* Private */,
-      28,    1,  203,    2, 0x08 /* Private */,
-      29,    1,  206,    2, 0x08 /* Private */,
-      30,    0,  209,    2, 0x08 /* Private */,
-      31,    0,  210,    2, 0x08 /* Private */,
-      32,    0,  211,    2, 0x08 /* Private */,
-      33,    0,  212,    2, 0x08 /* Private */,
-      34,    0,  213,    2, 0x08 /* Private */,
-      35,    0,  214,    2, 0x08 /* Private */,
-      36,    0,  215,    2, 0x08 /* Private */,
-      37,    0,  216,    2, 0x08 /* Private */,
-      38,    1,  217,    2, 0x08 /* Private */,
+       1,    0,  174,    2, 0x08 /* Private */,
+       3,    0,  175,    2, 0x08 /* Private */,
+       4,    1,  176,    2, 0x08 /* Private */,
+       6,    1,  179,    2, 0x08 /* Private */,
+       8,    1,  182,    2, 0x08 /* Private */,
+      11,    0,  185,    2, 0x08 /* Private */,
+      12,    0,  186,    2, 0x08 /* Private */,
+      13,    0,  187,    2, 0x08 /* Private */,
+      14,    0,  188,    2, 0x08 /* Private */,
+      15,    0,  189,    2, 0x08 /* Private */,
+      16,    0,  190,    2, 0x08 /* Private */,
+      17,    0,  191,    2, 0x08 /* Private */,
+      18,    1,  192,    2, 0x08 /* Private */,
+      20,    0,  195,    2, 0x08 /* Private */,
+      21,    0,  196,    2, 0x08 /* Private */,
+      22,    0,  197,    2, 0x08 /* Private */,
+      23,    1,  198,    2, 0x08 /* Private */,
+      24,    1,  201,    2, 0x08 /* Private */,
+      26,    1,  204,    2, 0x08 /* Private */,
+      27,    0,  207,    2, 0x08 /* Private */,
+      28,    1,  208,    2, 0x08 /* Private */,
+      29,    1,  211,    2, 0x08 /* Private */,
+      30,    0,  214,    2, 0x08 /* Private */,
+      31,    0,  215,    2, 0x08 /* Private */,
+      32,    0,  216,    2, 0x08 /* Private */,
+      33,    0,  217,    2, 0x08 /* Private */,
+      34,    0,  218,    2, 0x08 /* Private */,
+      35,    0,  219,    2, 0x08 /* Private */,
+      36,    0,  220,    2, 0x08 /* Private */,
+      37,    0,  221,    2, 0x08 /* Private */,
+      38,    0,  222,    2, 0x08 /* Private */,
+      40,    1,  223,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -170,7 +174,8 @@ static const uint qt_meta_data_MainWin[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   39,
+    0x80000000 | 39,
+    QMetaType::Void, QMetaType::QString,   41,
 
        0        // eod
 };
@@ -211,7 +216,9 @@ void MainWin::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 27: _t->resetTimeClicked(); break;
         case 28: _t->applySettings(); break;
         case 29: _t->keyTxClicked(); break;
-        case 30: _t->mixerDeviceChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 30: { GpioSettings _r = _t->getGpioSettings();
+            if (_a[0]) *reinterpret_cast< GpioSettings*>(_a[0]) = std::move(_r); }  break;
+        case 31: _t->mixerDeviceChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -248,13 +255,13 @@ int MainWin::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 31)
+        if (_id < 32)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 31;
+        _id -= 32;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 31)
+        if (_id < 32)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 31;
+        _id -= 32;
     }
     return _id;
 }

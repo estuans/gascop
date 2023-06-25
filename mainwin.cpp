@@ -44,11 +44,12 @@ Mix_Chunk * SC_sound;
 bool isPlayingWav;
 
 void channelDone(int channel);
-
 /*  There is no limit to transmission length but bear in mind a 3 minute transmission requires about 13MB of memory to store the wave data
  *
  *
 */
+
+
 
 MainWin::MainWin( QWidget * parent, Qt::WindowFlags f)
  : QMainWindow(parent, f)
@@ -754,6 +755,7 @@ void MainWin::getPagerIDClicked()
       setFunctionBits();
       sspBaud = dbPagerIDs.at(index).baud;
       setBaudRate();
+
       if(dbPagerIDs.at(index).numeric)
         tbNumeric->setChecked(true);
       else
@@ -1306,7 +1308,7 @@ void MainWin::buildPocsagWaveData(QList<quint32> * cw, int baud)
   double totalTxTime;                                     // Total transmission time is : tpb * tb
   bits = (double)pd.count() * 32;                         // Also this --->  ((((float)waveFileDataLength / (float)22050) * 1000) + 1000);
   timePerBit = 1.0 / 1200.0;                              // datalen / samplesPerSecond = time in seconds that the file will play for
-  totalTxTime = ((bits * timePerBit) * 1000.0) + 200;
+  totalTxTime = ((bits * timePerBit) * 1000.0) + 500;
   int tt;
   tt = round(totalTxTime);
   txLength->setInterval(tt);
@@ -1392,6 +1394,11 @@ void MainWin::txLengthTimeout()
   {
     gotoSleep::msleep(100);
     QCoreApplication::processEvents(QEventLoop::AllEvents); // Process events while we are waiting
+  }
+  if(rbGpio->isChecked())
+  {
+        GpioSettings pinSettings = this->getGpioSettings();
+        QProcess::startDetached("raspi-gpio", {"set", pinSettings.pinNumber,pinSettings.pinLowState});
   }
   if(rbSop->isChecked())
   {
@@ -1555,16 +1562,23 @@ void MainWin::playWaveData()
     displayMessages("Unable to load POCSAG data: " + (QString)Mix_GetError());
     return;
   }
+
+  if(rbGpio->isChecked())
+  {
+        GpioSettings pinSettings = this->getGpioSettings();
+        QProcess::execute("raspi-gpio", {"set", pinSettings.pinNumber, pinSettings.pinHighState,});
+        gotoSleep::msleep(keyDelay[0]);
+  }
   if(rbSop->isChecked())
   {
     if(singlePage)
     {
-      QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[sbTx->value()-1]) + " " + QSn(normInv[sbTx->value()-1])});
+      QProcess::startDetached("gpio -g write " + QSn(gpioPin[sbTx->value()-1]) + " " + QSn(normInv[sbTx->value()-1]), {});
       gotoSleep::msleep(keyDelay[sbTx->value()-1]);
     }
     else
     {
-      QProcess::startDetached("gpio", {"-g write " + QSn(gpioPin[currentTx-1]) + " " + QSn(normInv[currentTx-1])});
+        QProcess::startDetached("gpio -g write " + QSn(gpioPin[currentTx-1]) + " " + QSn(normInv[currentTx-1]), {});
       gotoSleep::msleep(keyDelay[currentTx-1]);
     }
   }
@@ -1606,7 +1620,18 @@ void channelDone(int channel)
 
 // Test keying on the setup tab
 void MainWin::keyTxClicked()
-{
+{  
+    if(rbGpio->isChecked())
+    {
+        GpioSettings pinSettings = this->getGpioSettings();
+        if(pbKeyTx->isChecked()) {
+            QProcess::startDetached("raspi-gpio", {"set", pinSettings.pinNumber, pinSettings.pinHighState,});
+        }
+        else {
+            QProcess::startDetached("raspi-gpio", {"set", pinSettings.pinNumber, pinSettings.pinLowState, });
+        }
+    }
+
   if(rbSop->isChecked())
   {
     if(pbKeyTx->isChecked())
@@ -2098,6 +2123,15 @@ void MainWin::applySettings()
     for(int x =0; x < kd.count(); x++)
       keyDelay[x] = kd.at(x).toInt();
   }
+
+  if(rbGpio->isChecked())
+  {      
+        GpioSettings pinSettings = this->getGpioSettings();
+        QProcess::execute("raspi-gpio", {"set",pinSettings.pinNumber,"op",});
+        //QProcess::startDetached("gpio -g write " + QSn(pin) + " " + QSn(!normInv[0]), {});
+        QProcess::execute("raspi-gpio", {"set", pinSettings.pinNumber,pinSettings.pinLowState});
+  }
+
   if(rbSop->isChecked())
   {
     gpioPin[0] = 17;
@@ -2121,6 +2155,28 @@ void MainWin::applySettings()
   }
   writeSettings();
 }
+
+GpioSettings MainWin::getGpioSettings(){
+
+    QString pinNumberStr = piGpio->text();
+    QString low_state = "dl";
+    QString high_state = "dh";
+
+    if(pinNumberStr != ""){
+
+      int pin = pinNumberStr.toInt();
+      if(pin < 0){
+          low_state  = "dh";
+          high_state = "dl";
+      }
+
+      // Can't have a negative pin now!
+      pin = abs(pin);
+      return GpioSettings{QSn(pin), low_state, high_state};
+    }
+
+    return GpioSettings{"0","dl", "dl"};
+ }
 
 //=========================================================================================================================================
 

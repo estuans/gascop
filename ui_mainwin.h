@@ -196,16 +196,18 @@ public:
     QRadioButton *rbPic;
     QRadioButton *rbSop;
     QRadioButton *rbGpio;
+    QLineEdit *piGpio;
     QGroupBox *groupBox_16;
     QComboBox *mixer_device;
+    QLabel *label_8;
 
     void setupUi(QMainWindow *MainWin)
     {
         if (MainWin->objectName().isEmpty())
             MainWin->setObjectName(QString::fromUtf8("MainWin"));
-        MainWin->resize(800, 600);
-        MainWin->setMinimumSize(QSize(650, 480));
-        MainWin->setMaximumSize(QSize(800, 600));
+        MainWin->resize(1200, 480);
+        MainWin->setMinimumSize(QSize(680, 480));
+        MainWin->setMaximumSize(QSize(1280, 480));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/images/gascop.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWin->setWindowIcon(icon);
@@ -235,7 +237,7 @@ public:
         tabPageEnter->setObjectName(QString::fromUtf8("tabPageEnter"));
         teMessage = new QTextEdit(tabPageEnter);
         teMessage->setObjectName(QString::fromUtf8("teMessage"));
-        teMessage->setGeometry(QRect(120, 210, 523, 67));
+        teMessage->setGeometry(QRect(120, 210, 523, 183));
         teMessage->setTabChangesFocus(true);
         label = new QLabel(tabPageEnter);
         label->setObjectName(QString::fromUtf8("label"));
@@ -252,7 +254,7 @@ public:
         pbSend->setGeometry(QRect(26, 238, 61, 25));
         lwPrevPages = new QListWidget(tabPageEnter);
         lwPrevPages->setObjectName(QString::fromUtf8("lwPrevPages"));
-        lwPrevPages->setGeometry(QRect(120, 296, 523, 159));
+        lwPrevPages->setGeometry(QRect(656, 42, 523, 351));
         gbFunctionBits = new QGroupBox(tabPageEnter);
         gbFunctionBits->setObjectName(QString::fromUtf8("gbFunctionBits"));
         gbFunctionBits->setGeometry(QRect(4, 4, 183, 51));
@@ -371,10 +373,10 @@ public:
         levelLabel->setGeometry(QRect(368, 28, 29, 16));
         label_9 = new QLabel(tabPageEnter);
         label_9->setObjectName(QString::fromUtf8("label_9"));
-        label_9->setGeometry(QRect(4, 294, 101, 16));
+        label_9->setGeometry(QRect(658, 14, 101, 16));
         line = new QFrame(tabPageEnter);
         line->setObjectName(QString::fromUtf8("line"));
-        line->setGeometry(QRect(-2, 276, 647, 16));
+        line->setGeometry(QRect(0, 402, 647, 16));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
         line_2 = new QFrame(tabPageEnter);
@@ -384,7 +386,7 @@ public:
         line_2->setFrameShadow(QFrame::Sunken);
         verLabel = new QLabel(tabPageEnter);
         verLabel->setObjectName(QString::fromUtf8("verLabel"));
-        verLabel->setGeometry(QRect(4, 548, 119, 16));
+        verLabel->setGeometry(QRect(0, 426, 119, 16));
         groupBox = new QGroupBox(tabPageEnter);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setGeometry(QRect(176, 52, 245, 47));
@@ -821,7 +823,7 @@ public:
         tabSetup->setObjectName(QString::fromUtf8("tabSetup"));
         pbApply = new QPushButton(tabSetup);
         pbApply->setObjectName(QString::fromUtf8("pbApply"));
-        pbApply->setGeometry(QRect(680, 510, 83, 25));
+        pbApply->setGeometry(QRect(670, 306, 101, 39));
         groupBox_6 = new QGroupBox(tabSetup);
         groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
         groupBox_6->setGeometry(QRect(4, 2, 637, 105));
@@ -879,7 +881,7 @@ public:
         label_17->setWordWrap(true);
         groupBox_14 = new QGroupBox(tabSetup);
         groupBox_14->setObjectName(QString::fromUtf8("groupBox_14"));
-        groupBox_14->setGeometry(QRect(4, 364, 349, 91));
+        groupBox_14->setGeometry(QRect(650, 190, 349, 91));
         leSyncCW = new QLineEdit(groupBox_14);
         leSyncCW->setObjectName(QString::fromUtf8("leSyncCW"));
         leSyncCW->setGeometry(QRect(90, 24, 103, 24));
@@ -902,7 +904,7 @@ public:
         label_7->setGeometry(QRect(200, 56, 137, 16));
         groupBox_15 = new QGroupBox(tabSetup);
         groupBox_15->setObjectName(QString::fromUtf8("groupBox_15"));
-        groupBox_15->setGeometry(QRect(358, 364, 281, 89));
+        groupBox_15->setGeometry(QRect(652, 8, 281, 89));
         rbPic = new QRadioButton(groupBox_15);
         rbPic->setObjectName(QString::fromUtf8("rbPic"));
         rbPic->setGeometry(QRect(4, 46, 245, 20));
@@ -912,14 +914,20 @@ public:
         rbSop->setGeometry(QRect(4, 64, 261, 20));
         rbGpio = new QRadioButton(groupBox_15);
         rbGpio->setObjectName(QString::fromUtf8("rbGpio"));
-        rbGpio->setGeometry(QRect(4, 28, 261, 20));
+        rbGpio->setGeometry(QRect(4, 28, 107, 20));
         rbGpio->setChecked(true);
+        piGpio = new QLineEdit(groupBox_15);
+        piGpio->setObjectName(QString::fromUtf8("piGpio"));
+        piGpio->setGeometry(QRect(156, 26, 113, 25));
         groupBox_16 = new QGroupBox(tabSetup);
         groupBox_16->setObjectName(QString::fromUtf8("groupBox_16"));
-        groupBox_16->setGeometry(QRect(2, 458, 635, 63));
+        groupBox_16->setGeometry(QRect(650, 114, 425, 63));
         mixer_device = new QComboBox(groupBox_16);
         mixer_device->setObjectName(QString::fromUtf8("mixer_device"));
         mixer_device->setGeometry(QRect(14, 28, 391, 25));
+        label_8 = new QLabel(tabSetup);
+        label_8->setObjectName(QString::fromUtf8("label_8"));
+        label_8->setGeometry(QRect(958, 28, 209, 29));
         twMain->addTab(tabSetup, QString());
 
         gridLayout->addWidget(twMain, 0, 0, 1, 1);
@@ -962,7 +970,7 @@ public:
 
         retranslateUi(MainWin);
 
-        twMain->setCurrentIndex(0);
+        twMain->setCurrentIndex(6);
 
 
         QMetaObject::connectSlotsByName(MainWin);
@@ -1149,7 +1157,9 @@ public:
         rbPic->setText(QCoreApplication::translate("MainWin", "PIC 16C63 Interface", nullptr));
         rbSop->setText(QCoreApplication::translate("MainWin", "Slice of Pi Interface", nullptr));
         rbGpio->setText(QCoreApplication::translate("MainWin", "Pi GPIO", nullptr));
+        piGpio->setPlaceholderText(QCoreApplication::translate("MainWin", "GPIO Pin (17)", nullptr));
         groupBox_16->setTitle(QCoreApplication::translate("MainWin", "Sound Device", nullptr));
+        label_8->setText(QCoreApplication::translate("MainWin", "On the DevTerm - Pin 41", nullptr));
         twMain->setTabText(twMain->indexOf(tabSetup), QCoreApplication::translate("MainWin", "Setup", nullptr));
     } // retranslateUi
 

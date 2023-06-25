@@ -39,6 +39,13 @@
 
 #define NUM_SOUNDS 1
 
+
+struct GpioSettings {
+    QString pinNumber;
+    QString pinLowState;
+    QString pinHighState;
+};
+
 class GasCopServer;
 
 class MainWin : public QMainWindow, public Ui::MainWin
@@ -86,6 +93,7 @@ Q_OBJECT
     void resetTimeClicked();
     void applySettings();
     void keyTxClicked();
+    GpioSettings getGpioSettings();
     void mixerDeviceChanged(QString dev_name);
 
   private:
@@ -174,6 +182,7 @@ Q_OBJECT
       int numeric;
       int ricPos;
     };
+
     QVector<sd> txSendPages;
     sd txSendPage;
 
